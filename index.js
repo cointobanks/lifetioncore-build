@@ -42,6 +42,7 @@ var shell = require('gulp-shell');
 var uglify = require('gulp-uglify');
 var bump = require('gulp-bump');
 var git = require('gulp-git');
+var fs = require('fs');
 
 function ignoreerror() {
   /* jshint ignore:start */ // using `this` in this context is weird 
@@ -62,17 +63,44 @@ function startGulp(name, opts) {
   var buildModulesPath = buildPath + 'node_modules/';
   var buildBinPath = buildPath + 'node_modules/.bin/';
 
+  var browserifyPath = buildBinPath + 'browserify';
+  var karmaPath = buildBinPath + 'karma';
+  var platoPath = buildBinPath + 'plato';
+  var istanbulPath = buildBinPath + 'istanbul';
+  var mochaPath = buildBinPath + '_mocha';
+
+  // newer version of node? binaries are in lower level of node_module path
+  if (!fs.existsSync(browserifyPath)) {
+    browserifyPath = './node_modules/.bin/browserify';
+  } 
+
+  if (!fs.existsSync(karmaPath)) {
+    karmaPath = './node_modules/.bin/karma';
+  }
+
+  if (!fs.existsSync(istanbulPath)) {
+    istanbulPath = './node_modules/.bin/istanbul';
+  }
+
+  if (!fs.existsSync(platoPath)) {
+    platoPath = './node_modules/.bin/plato';
+  }
+
+  if (!fs.existsSync(mochaPath)) {
+    mochaPath = './node_modules/.bin/_mocha';
+  }
+
   /**
    * testing
    */
   var testmocha = function() {
-    return gulp.src(tests).pipe(new mocha({
+    return gulp.src(tests).pipe(mocha({
       reporter: 'spec'
     }));
   };
 
   var testkarma = shell.task([
-    buildModulesPath + 'karma/bin/karma start ' + buildPath + 'karma.conf.js'
+    karmaPath + ' start ' + buildPath + 'karma.conf.js'
   ]);
 
   gulp.task('test:node', testmocha);
@@ -91,8 +119,7 @@ function startGulp(name, opts) {
     gulp.task('test', ['test:node']);
   }
 
-  gulp.task('noop', function() {
-  });
+  gulp.task('noop', function() {});
 
   /**
    * file generation
@@ -102,9 +129,9 @@ function startGulp(name, opts) {
     var browserifyCommand;
 
     if (name !== 'lib') {
-      browserifyCommand = buildBinPath + 'browserify --require ./index.js:' + fullname + ' --external bitcore-lib-dash -o ' + fullname + '.js';
+      browserifyCommand = browserifyPath + ' --require ./index.js:' + fullname + ' --external bitcore-lib-dash -o ' + fullname + '.js';
     } else {
-      browserifyCommand = buildBinPath + 'browserify --require ./index.js:bitcore-lib-dash -o bitcore-lib-dash.js';
+      browserifyCommand = browserifyPath + ' --require ./index.js:bitcore-lib-dash -o bitcore-lib-dash.js';
     }
 
     gulp.task('browser:uncompressed', shell.task([
@@ -123,7 +150,7 @@ function startGulp(name, opts) {
     });
 
     gulp.task('browser:maketests', shell.task([
-      'find test/ -type f -name "*.js" | xargs ' + buildBinPath + 'browserify -t brfs -o tests.js'
+      'find test/ -type f -name "*.js" | xargs ' + browserifyPath + ' -t brfs -o tests.js'
     ]));
 
     gulp.task('browser', function(callback) {
@@ -141,9 +168,9 @@ function startGulp(name, opts) {
       .pipe(jshint.reporter('default'));
   });
 
-  gulp.task('plato', shell.task([buildBinPath + 'plato -d report -r -l .jshintrc -t ' + fullname + ' lib']));
+  gulp.task('plato', shell.task([platoPath + ' -d report -r -l .jshintrc -t ' + fullname + ' lib']));
 
-  gulp.task('coverage', shell.task([buildBinPath + './istanbul cover ' + buildBinPath + '_mocha -- --recursive']));
+  gulp.task('coverage', shell.task([istanbulPath + ' cover ' + mochaPath + ' -- --recursive']));
 
   gulp.task('coveralls', ['coverage'], function() {
     gulp.src('coverage/lcov.info').pipe(coveralls());
