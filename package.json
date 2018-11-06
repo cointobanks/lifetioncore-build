@@ -1,45 +1,24 @@
 {
-  "name": "bitcore-build-dash",
-  "version": "0.9.0",
-  "description": "A helper for common tasks to build bitcore-dash modules'",
+  "name": "dashcore-build",
+  "version": "1.0.0",
+  "description": "A helper for common tasks to build dashcore modules",
   "main": "index.js",
   "scripts": {
     "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/dashpay/bitcore-build-dash"
+    "url": "git://github.com/dashpay/dashcore-build"
   },
   "keywords": [
-    "bitcore"
-  ],
-  "contributors": [
-    {
-      "name": "Esteban Ordano",
-      "email": "esteban@bitpay.com"
-    },
-    {
-      "name": "Manuel Araoz",
-      "email": "maraoz@bitpay.com"
-    },
-    {
-      "name": "Braydon Fuller",
-      "email": "braydon@bitpay.com"
-    },
-    {
-      "name": "Yemel Jardi",
-      "email": "yemel@bitpay.com"
-    },
-    {
-      "name": "Matias Alejo Garcia",
-      "email": "ematiu@gmail.com"
-    }
+    "dash",
+    "dashcore"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dashpay/bitcore-build-dash/issues"
+    "url": "https://github.com/dashpay/dashcore-build/issues"
   },
-  "homepage": "https://github.com/dashpay/bitcore-build-dash",
+  "homepage": "https://github.com/dashpay/dashcore-build",
   "dependencies": {
     "brfs": "^1.4.3",
     "browserify": "^13.1.1",
