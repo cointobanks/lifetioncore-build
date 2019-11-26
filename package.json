@@ -1,24 +1,24 @@
 {
-  "name": "dashcore-build",
-  "version": "1.0.0",
-  "description": "A helper for common tasks to build dashcore modules",
+  "name": "lifetioncore-build",
+  "version": "2.0.0",
+  "description": "A helper for common tasks to build lifetioncore modules",
   "main": "index.js",
   "scripts": {
     "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/dashpay/dashcore-build"
+    "url": "git://github.com/cointobanks/lifetioncore-build"
   },
   "keywords": [
-    "dash",
-    "dashcore"
+    "lifetioncoin",
+    "lifetioncore"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dashpay/dashcore-build/issues"
+    "url": "https://github.com/cointobanks/lifetioncore-build/issues"
   },
-  "homepage": "https://github.com/dashpay/dashcore-build",
+  "homepage": "https://github.com/cointobanks/lifetioncore-build",
   "dependencies": {
     "brfs": "^1.4.3",
     "browserify": "^13.1.1",
